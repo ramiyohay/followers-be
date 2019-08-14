@@ -132,22 +132,19 @@ class DbHelper {
         return new Promise(function (resolve, reject) {
             const text =
                 'SELECT u.id,u.name,u.followers_ids,g.name as group_name FROM users u' +
-                ' INNER JOIN groups g ON u.group_id = g.id ' +
-                ' WHERE u.id != $1';
-
-            const values = [userId];
+                ' INNER JOIN groups g ON u.group_id = g.id ';
 
             if (!pgClient) resolve(null);
             else {
-                pgClient.query(text, values, (err, res) => {
+                pgClient.query(text, [], (err, res) => {
                     if (err) {
                         console.log(err.stack);
                         resolve(null);
                     } else {
                         res.rows.forEach((row) => {
                             row.total_followers = row.followers_ids.length;
-                            row.following = row.followers_ids.includes(parseInt(userId));
-                            delete row.followers_ids;
+                            row.following = row.followers_ids.includes(parseInt(userId)); // if the user is in the followers array, it means that the user is following
+                            delete row.followers_ids; // we only need the total, not the ids
                         });
 
                         resolve(res.rows);
