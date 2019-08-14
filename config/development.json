@@ -1,0 +1,14 @@
+{
+  "app": {
+    "session_secret": "SOME_SECRET"
+  },
+  "postgresDB": {
+    "drivername": "postgres",
+    "username": "",
+    "password": "",
+    "user": "",
+    "host": "",
+    "database": "",
+    "port": 5432
+  }
+}
